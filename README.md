@@ -1,6 +1,6 @@
 # Panner.js 🍳
 ### A barebones javascript module for panning & zooming
-
+[Sample](https://angelo-funelas.github.io/panner.js/)
 ## Installation
 1. Import the pannerInit function from the `panner.js` module in an existing javascript file.
 ```javascript
