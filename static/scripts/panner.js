@@ -1,6 +1,7 @@
 var last_click = {
     x: 0,
-    y: 0
+    y: 0,
+    date: null
 }
 var iPosX, iPosY
 function dragElement(el, onDragStart, onDrag, onDragEnd, zoom_options) {
@@ -15,26 +16,33 @@ function dragStart(e, el, touch, callback, onDrag, onDragEnd) {
     var cursor = (touch)?e.touches[0]:e
     iPosX = cursor.clientX;
     iPosY = cursor.clientY;
-    el.onmouseup = () => {onDragEnd(); dragEnd(el)};
-    el.ontouchend = () => {onDragEnd(); dragEnd(el)};
+    el.onmouseup = () => {onDragEnd(); dragEnd(e, el)};
+    el.ontouchend = () => {onDragEnd(); dragEnd(e, el)};
     el.onmousemove = (e) => elementDrag(e, el, touch, onDrag);
     el.ontouchmove = (e) => elementDrag(e, el, touch, onDrag);
     if (callback) callback(); // OpenNav(false)
+    last_click.date = new Date();
+    el.moved = false
 }
-function dragEnd(el) {
-    console.log(el);
+function dragEnd(e, el) {
     var rect = el.getBoundingClientRect();
     var x = (el.panner_container.offsetWidth/2)-rect.left;
     var y = (el.panner_container.offsetHeight/2)-rect.top;
     var pixelX = Math.floor(x*el.pixel_width/el.offsetWidth);
     var pixelY = Math.floor(y*el.pixel_height/el.offsetHeight);
-    console.log(pixelX, pixelY)
     last_click.x = pixelX;
     last_click.y = pixelY;
     el.onmouseup = null;
     el.onmousemove = null;
     el.ontouchend = null;
     el.ontouchmove = null;
+    if (last_click.date!==null) {
+        const now = new Date();
+        const speed = now-last_click.date;
+        if (speed <= 200 && !el.moved) {
+            el.onclickFunc(e)
+        }
+    }
 }
 function elementDrag(e, el, touch, callback) {
     if (callback) callback();
@@ -85,7 +93,6 @@ function zoom(el, zoom_value, x, y) {
             const rect = element.getBoundingClientRect()
             const x = element.interfacePos[0]
             const y = element.interfacePos[1]
-            console.log(x,y)
             element.style.translate = `${x*pixel_size}px ${y*pixel_size}px`
         }
     });
@@ -112,7 +119,7 @@ export function pannerInit(el, options) {
         last_click.x = (el.pixel_width)/2
         last_click.y = (el.pixel_height)/2
     }
-    el.onclick = (e) => {
+    el.onclickFunc = (e) => {
         var rect = el.getBoundingClientRect();
         var x = e.clientX - rect.left;
         var y = e.clientY - rect.top;
