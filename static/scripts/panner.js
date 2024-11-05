@@ -16,15 +16,15 @@ function dragStart(e, el, touch, callback, onDrag, onDragEnd) {
     var cursor = (touch)?e.touches[0]:e
     iPosX = cursor.clientX;
     iPosY = cursor.clientY;
-    el.onmouseup = () => {onDragEnd(); dragEnd(e, el)};
-    el.ontouchend = () => {onDragEnd(); dragEnd(e, el)};
+    el.onmouseup = () => {onDragEnd(); dragEnd(cursor, el)};
+    el.ontouchend = () => {onDragEnd(); dragEnd(cursor, el)};
     el.onmousemove = (e) => elementDrag(e, el, touch, onDrag);
     el.ontouchmove = (e) => elementDrag(e, el, touch, onDrag);
     if (callback) callback(); // OpenNav(false)
     last_click.date = new Date();
     el.moved = false
 }
-function dragEnd(e, el) {
+function dragEnd(cursor, el) {
     var rect = el.getBoundingClientRect();
     var x = (el.panner_container.offsetWidth/2)-rect.left;
     var y = (el.panner_container.offsetHeight/2)-rect.top;
@@ -40,7 +40,7 @@ function dragEnd(e, el) {
         const now = new Date();
         const speed = now-last_click.date;
         if (speed <= 200 && !el.moved) {
-            el.onclickFunc(e)
+            el.onclickFunc(cursor)
         }
     }
 }
@@ -119,10 +119,10 @@ export function pannerInit(el, options) {
         last_click.x = (el.pixel_width)/2
         last_click.y = (el.pixel_height)/2
     }
-    el.onclickFunc = (e) => {
+    el.onclickFunc = (cursor) => {
         var rect = el.getBoundingClientRect();
-        var x = e.clientX - rect.left;
-        var y = e.clientY - rect.top;
+        var x = cursor.clientX - rect.left;
+        var y = cursor.clientY - rect.top;
         var pixelX = Math.floor(x*el.pixel_width/el.offsetWidth)
         var pixelY = Math.floor(y*el.pixel_height/el.offsetHeight)
         options.onClick(pixelX, pixelY, x, y)
