@@ -16,6 +16,7 @@ function dragStart(e, el, touch, callback, onDrag, onDragEnd) {
     var cursor = (touch)?e.touches[0]:e
     iPosX = cursor.clientX;
     iPosY = cursor.clientY;
+    el.onmouseleave = () => {onDragEnd(); dragEnd(cursor, el)};
     el.onmouseup = () => {onDragEnd(); dragEnd(cursor, el)};
     el.ontouchend = () => {onDragEnd(); dragEnd(cursor, el)};
     el.onmousemove = (e) => elementDrag(e, el, touch, onDrag);
