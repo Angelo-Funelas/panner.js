@@ -1,23 +1,20 @@
-#canvas {
+.panner-target {
     position: absolute;
     display: grid;
     grid-template-areas: 'a';
 }
-#canvas > .panner_interface, #canvas > .image {
+.panner-target > .panner_interface, .panner-target > .image {
     grid-area: a;
     width: 100%;
 }
 .panner_interface {
     position: relative;
 }
-#canvas > .image {
+.panner-target > .image {
     touch-action: none;
     will-change: width;
 }
 .panner-container {
     position: relative;
-    border: 2px solid black;
-    width: 80vw;
-    height: 80vh;
     overflow: hidden;
 }
