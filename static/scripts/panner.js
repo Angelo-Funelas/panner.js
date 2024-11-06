@@ -86,9 +86,9 @@ function center(el, x, y) {
 function zoom(el, zoom_value, x, y) {
     if (el.zoom_lock) return;
     el.style.width = `${Math.floor(el.pixel_width*zoom_value)}px`;
-    const interface_elements = el.querySelector(".panner_interface").querySelectorAll('*');
+    const interface_elements = el.interface.querySelectorAll('*');
     interface_elements.forEach(element => {
-        if (element.interface !== undefined || element.interface !== null) {
+        if (element.interfacePos !== undefined || element.interfacePos !== null) {
             const pixel_size = el.offsetWidth/el.pixel_width;
             const rect = element.getBoundingClientRect();
             const x = element.interfacePos[0];
