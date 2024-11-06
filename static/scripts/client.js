@@ -1,6 +1,6 @@
 import { pannerInit } from "./panner.js"
 
-var target = document.getElementById('canvas')
+var target = document.getElementById('ateneo_map')
 pannerInit(target, {
     onDrag: function() {},
     onDragStart: function() {},
