@@ -22,7 +22,7 @@ function dragStart(e, el, touch, callback, onDrag, onDragEnd) {
     el.ontouchmove = (e) => elementDrag(e, el, touch, onDrag);
     if (callback) callback(); // OpenNav(false)
     last_click.date = new Date();
-    el.moved = false
+    el.moved = false;
 }
 function dragEnd(cursor, el) {
     var rect = el.getBoundingClientRect();
@@ -40,91 +40,91 @@ function dragEnd(cursor, el) {
         const now = new Date();
         const speed = now-last_click.date;
         if (speed <= 200 && !el.moved) {
-            el.onclickFunc(cursor)
+            el.onclickFunc(cursor);
         }
     }
 }
 function elementDrag(e, el, touch, callback) {
     if (callback) callback();
     e.preventDefault();
-    var cursor = (touch)?e.touches[0]:e
+    var cursor = (touch)?e.touches[0]:e;
     // calculate the new cursor position:
     var pos1 = iPosX - cursor.clientX;
     var pos2 = iPosY - cursor.clientY;
     iPosX = cursor.clientX;
     iPosY = cursor.clientY;
     // set the element's new position:
-    var cur_transl = el.style.translate.split(' ') 
-    if (cur_transl == '') el.style.translate = '0px 0px'
-    var cur_x = parseFloat(cur_transl[0]) || 0
-    var cur_y = parseFloat(cur_transl[1]) || 0
-    el.moved = true
-    setPos(el, cur_x-pos1, cur_y-pos2)
+    var cur_transl = el.style.translate.split(' ');
+    if (cur_transl == '') el.style.translate = '0px 0px';
+    var cur_x = parseFloat(cur_transl[0]) || 0;
+    var cur_y = parseFloat(cur_transl[1]) || 0;
+    el.moved = true;
+    setPos(el, cur_x-pos1, cur_y-pos2);
 }
 var handleScroll = function(e, el, zoom_options) {
     e.preventDefault();
     var delta = e.wheelDelta ? e.wheelDelta/40 : e.detail ? -e.detail : 0;
-    var dir = 1
-    if (delta <= 0) dir *= -1
-    zoom(el, Math.max(el.min_zoom, Math.min(el.max_zoom, el.zoom+zoom_options.step*dir)), last_click.x, last_click.y)
+    var dir = 1;
+    if (delta <= 0) dir *= -1;
+    zoom(el, Math.max(el.min_zoom, Math.min(el.max_zoom, el.zoom+zoom_options.step*dir)), last_click.x, last_click.y);
 };
 function setPos(el, x, y) {
-    el.style.translate = `${x}px ${y}px`
+    el.style.translate = `${x}px ${y}px`;
 }
 function center(el, x, y) {
-    var offsetX, offsetY
+    var offsetX, offsetY;
     if ((x!==undefined||x!==null) && (y!==undefined||y!==null)) {
-        const pixel_size = el.offsetWidth/el.pixel_width
-        offsetX = (el.panner_container.offsetWidth/2)-(pixel_size*x)
-        offsetY = (el.panner_container.offsetHeight/2)-(pixel_size*y)
+        const pixel_size = el.offsetWidth/el.pixel_width;
+        offsetX = (el.panner_container.offsetWidth/2)-(pixel_size*x);
+        offsetY = (el.panner_container.offsetHeight/2)-(pixel_size*y);
     } else {
-        offsetX = (el.panner_container.offsetWidth/2)-((el.scrollWidth)/2)
-        offsetY = (el.panner_container.offsetHeight/2)-((el.scrollHeight)/2)
+        offsetX = (el.panner_container.offsetWidth/2)-((el.scrollWidth)/2);
+        offsetY = (el.panner_container.offsetHeight/2)-((el.scrollHeight)/2);
     }
-    setPos(el, offsetX, offsetY)
+    setPos(el, offsetX, offsetY);
 }
 function zoom(el, zoom_value, x, y) {
     if (el.zoom_lock) return;
-    el.style.width = `${Math.floor(el.pixel_width*zoom_value)}px`
-    const interface_elements = el.querySelector(".panner_interface").querySelectorAll('*')
+    el.style.width = `${Math.floor(el.pixel_width*zoom_value)}px`;
+    const interface_elements = el.querySelector(".panner_interface").querySelectorAll('*');
     interface_elements.forEach(element => {
         if (element.interface !== undefined || element.interface !== null) {
-            const pixel_size = el.offsetWidth/el.pixel_width
-            const rect = element.getBoundingClientRect()
-            const x = element.interfacePos[0]
-            const y = element.interfacePos[1]
-            element.style.translate = `${x*pixel_size}px ${y*pixel_size}px`
+            const pixel_size = el.offsetWidth/el.pixel_width;
+            const rect = element.getBoundingClientRect();
+            const x = element.interfacePos[0];
+            const y = element.interfacePos[1];
+            element.style.translate = `${x*pixel_size}px ${y*pixel_size}px`;
         }
     });
     el.zoom = zoom_value;
-    center(el, x, y)
+    center(el, x, y);
 }
 export function pannerInit(el, options) {
-    if (!el.parentElement.classList.contains("panner-container")) {console.error("Failed to initialize panner: element not inside panner container")}
-    el.panner_container = el.parentElement
-    el.img = el.querySelector(".image")
-    el.interface = el.querySelector(".panner_interface")
+    if (!el.parentElement.classList.contains("panner-container")) {console.error("Failed to initialize panner: element not inside panner container")};
+    el.panner_container = el.parentElement;
+    el.img = el.querySelector(".image");
+    el.interface = el.querySelector(".panner_interface");
 
-    el.pixel_width = el.img.width
-    el.pixel_height = el.img.height
+    el.pixel_width = el.img.width;
+    el.pixel_height = el.img.height;
     if (el.style.position == '');
     el.min_zoom = options.zoom.min;
     el.max_zoom = options.zoom.max;
     el.zoom = options.zoom.value || 1;
-    el.style.width = `${el.pixel_width * el.zoom}px`
+    el.style.width = `${el.pixel_width * el.zoom}px`;
     el.zoom_lock = !options.zoom?.allow || false;
     dragElement(el, options.onDragStart, options.onDrag, options.onDragEnd, options.zoom);
     if (options.pos == "center") {
         center(el,(el.pixel_width)/2,(el.pixel_height)/2);
-        last_click.x = (el.pixel_width)/2
-        last_click.y = (el.pixel_height)/2
+        last_click.x = (el.pixel_width)/2;
+        last_click.y = (el.pixel_height)/2;
     }
     el.onclickFunc = (cursor) => {
         var rect = el.getBoundingClientRect();
         var x = cursor.clientX - rect.left;
         var y = cursor.clientY - rect.top;
-        var pixelX = Math.floor(x*el.pixel_width/el.offsetWidth)
-        var pixelY = Math.floor(y*el.pixel_height/el.offsetHeight)
-        options.onClick(pixelX, pixelY, x, y)
+        var pixelX = Math.floor(x*el.pixel_width/el.offsetWidth);
+        var pixelY = Math.floor(y*el.pixel_height/el.offsetHeight);
+        options.onClick(pixelX, pixelY, x, y);
     }
 }
