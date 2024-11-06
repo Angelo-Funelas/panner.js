@@ -12,10 +12,6 @@
 }
 #canvas > .image {
     touch-action: none;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-    box-shadow: 0px 0px 50px rgba(0,0,0,0.8);
     will-change: width;
 }
 .panner-container {
