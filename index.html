@@ -9,14 +9,19 @@
         .map-pin {
             transform: translate(-25px, -50px);
         }
-        #canvas > .image {
+        .panner-target > .image {
             box-shadow: 0px 0px 50px rgba(0,0,0,0.8);
+        }
+        .panner-container {
+            border: 2px solid black;
+            width: 80vw;
+            height: 80vh;
         }
     </style>
 </head>
 <body>
     <div class="panner-container">
-        <div id="canvas">
+        <div class="panner-target" id="ateneo_map">
             <img class="image" src="./static/images/map.jpg">
             <div class="panner_interface"></div>
         </div>
