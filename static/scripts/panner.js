@@ -7,8 +7,8 @@ var iPosX, iPosY
 function dragElement(el, onDragStart, onDrag, onDragEnd, zoom_options) {
     el.onmousedown = (e) => dragStart(e, el, false, onDragStart, onDrag, onDragEnd);
     el.ontouchstart = (e) => dragStart(e, el, true, onDragStart, onDrag, onDragEnd);
-    el.addEventListener('DOMMouseScroll', (e) => handleScroll(e, el, zoom_options), false);
-    el.addEventListener('mousewheel',(e) => handleScroll(e, el, zoom_options), false);
+    el.panner_container.addEventListener('DOMMouseScroll', (e) => handleScroll(e, el, zoom_options), false);
+    el.panner_container.addEventListener('mousewheel',(e) => handleScroll(e, el, zoom_options), false);
 }
 function dragStart(e, el, touch, callback, onDrag, onDragEnd) {
     e = e || el.panner_container.event;
