@@ -17,7 +17,6 @@ pannerInit(target, {
         value: 10,
         min: 1,
         max: 40,
-        step: 0.1,
-        center: null
+        step: 0.1
     }
 })

@@ -31,13 +31,10 @@ pannerInit(element, {
     onClick: (x, y, clientX, clientY) => {},
     zoom: {
         value: 10,
-        allow: true,
         min: 1,
         max: 40,
-        step: 0.5,
-        center: null
-    },
-    pos: "center"
+        step: 0.5
+    }
 })
 ```
 ## Example
