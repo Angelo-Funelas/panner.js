@@ -108,6 +108,7 @@ export function pannerInit(el, options) {
     el.panner_container = el.parentElement;
     el.img = el.querySelector(".image");
     el.interface = el.querySelector(".panner_interface");
+    
     el.updateSize = () => {
         el.pixel_width = el.img.width;
         el.pixel_height = el.img.height;
@@ -117,15 +118,17 @@ export function pannerInit(el, options) {
     el.center = (x, y) => {
         center(el, x, y);
     }
-    if (el.style.position == '');
     el.min_zoom = options.zoom.min;
     el.max_zoom = options.zoom.max;
     el.zoom = options.zoom.value || 1;
+    el.zoom_lock = options.zoom.allow || false;
     el.style.width = `${el.pixel_width * el.zoom}px`;
-    el.zoom_lock = !options.zoom?.allow || false;
     dragElement(el, options.onDragStart, options.onDrag, options.onDragEnd, options.zoom);
-    if (options.pos == "center") {
-        center(el);
+    const pos = options.pos;
+    if (pos !== undefined && pos !== null) {
+        center(el, pos.x, pos.y);
+    } else {
+        center(el)
     }
     el.onclickFunc = (cursor) => {
         var rect = el.getBoundingClientRect();

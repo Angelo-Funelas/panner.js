@@ -15,11 +15,9 @@ pannerInit(target, {
     },
     zoom: {
         value: 10,
-        allow: true,
         min: 1,
         max: 40,
         step: 0.1,
         center: null
-    },
-    pos: "center"
+    }
 })
