@@ -13,6 +13,7 @@ pannerInit(target, {
         pin.className = 'map-pin'
         target.querySelector(".panner_interface").append(pin)
     },
+    onZoom: (pixelSize, zoomValue) => {},
     zoom: {
         value: 10,
         min: 1,

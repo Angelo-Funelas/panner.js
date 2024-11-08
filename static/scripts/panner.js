@@ -95,9 +95,9 @@ function zoom(el, zoom_value, x, y) {
     if (el.zoom_lock) return;
     el.style.width = `${Math.floor(el.pixel_width*zoom_value)}px`;
     const interface_elements = el.interface.querySelectorAll('*');
+    const pixel_size = el.offsetWidth/el.pixel_width;
     interface_elements.forEach(element => {
         if (element.interfacePos !== undefined || element.interfacePos !== null) {
-            const pixel_size = el.offsetWidth/el.pixel_width;
             const x = element.interfacePos[0];
             const y = element.interfacePos[1];
             element.style.translate = `${x*pixel_size}px ${y*pixel_size}px`;
@@ -105,6 +105,7 @@ function zoom(el, zoom_value, x, y) {
     });
     el.zoom = zoom_value;
     center(el, x, y);
+    el.onZoom(pixel_size, zoom_value)
 }
 export function pannerInit(el, options) {
     if (!el.parentElement.classList.contains("panner-container")) {console.error("Failed to initialize panner: element not inside panner container")};
@@ -133,6 +134,7 @@ export function pannerInit(el, options) {
     } else {
         center(el)
     }
+    el.onZoom = options.onZoom;
     el.onclickFunc = (cursor) => {
         var rect = el.getBoundingClientRect();
         var x = cursor.clientX - rect.left;
