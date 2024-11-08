@@ -18,7 +18,7 @@ pannerInit(target, {
         allow: true,
         min: 1,
         max: 40,
-        step: 0.5,
+        step: 0.1,
         center: null
     },
     pos: "center"
