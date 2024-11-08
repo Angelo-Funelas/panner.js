@@ -121,7 +121,7 @@ export function pannerInit(el, options) {
     el.min_zoom = options.zoom.min;
     el.max_zoom = options.zoom.max;
     el.zoom = options.zoom.value || 1;
-    el.zoom_lock = options.zoom.allow || false;
+    el.zoom_lock = options.zoom.lock || false;
     el.style.width = `${el.pixel_width * el.zoom}px`;
     dragElement(el, options.onDragStart, options.onDrag, options.onDragEnd, options.zoom);
     const pos = options.pos;
