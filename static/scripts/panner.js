@@ -105,9 +105,11 @@ export function pannerInit(el, options) {
     el.panner_container = el.parentElement;
     el.img = el.querySelector(".image");
     el.interface = el.querySelector(".panner_interface");
-
-    el.pixel_width = el.img.width;
-    el.pixel_height = el.img.height;
+    el.updateSize = () => {
+        el.pixel_width = el.img.width;
+        el.pixel_height = el.img.height;
+    }
+    el.updateSize();
     if (el.style.position == '');
     el.min_zoom = options.zoom.min;
     el.max_zoom = options.zoom.max;
