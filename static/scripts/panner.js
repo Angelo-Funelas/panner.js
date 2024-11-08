@@ -67,7 +67,7 @@ var handleScroll = function(e, el, zoom_options) {
     var delta = e.wheelDelta ? e.wheelDelta/40 : e.detail ? -e.detail : 0;
     var dir = 1;
     if (delta <= 0) dir *= -1;
-    zoom(el, Math.max(el.min_zoom, Math.min(el.max_zoom, el.zoom+zoom_options.step*dir)), last_click.x, last_click.y);
+    zoom(el, Math.max(el.min_zoom, Math.min(el.max_zoom, el.zoom*(1+(zoom_options.step*dir)))), last_click.x, last_click.y);
 };
 function setPos(el, x, y) {
     el.style.translate = `${x}px ${y}px`;
