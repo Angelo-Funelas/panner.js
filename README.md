@@ -14,9 +14,9 @@ import { pannerInit } from "./panner.js"
 ## Usage
 1. Follow the html structure below.
 ```html
-<div id="panner-container">
-    <div id="canvas">
-        <img class="image" src="example.png">
+<div class="panner-container">
+    <div class="panner-target" id="ateneo_map">
+        <img class="image" src="./static/images/map.jpg">
         <div class="panner_interface"></div>
     </div>
 </div>
@@ -42,3 +42,4 @@ pannerInit(element, {
 ```
 ## Example
 > View `index.html` to use as an example.
+> [Sample](https://angelo-funelas.github.io/panner.js/)
