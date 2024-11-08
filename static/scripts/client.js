@@ -7,11 +7,15 @@ pannerInit(target, {
     onDragEnd: function() {},
     onClick: (x, y, clientX, clientY) => {
         var pin = document.createElement("img");
-        pin.src = "./static/images/pin.png"
-        pin.style = `position: absolute; translate: ${clientX}px ${clientY}px`
-        pin.interfacePos = [x,y]
-        pin.className = 'map-pin'
-        target.querySelector(".panner_interface").append(pin)
+        pin.src = "./static/images/pin.png";
+        pin.onload = () => {
+            pin.interfacePos = [x,y];
+            pin.scaleWithZoom = true;
+            pin.style.width = `${pin.naturalWidth*target.pixelSize}px`;
+        }
+        pin.style = `position: absolute; translate: ${x*target.pixelSize}px ${y*target.pixelSize}px`;
+        pin.className = 'map-pin';
+        target.querySelector(".panner_interface").append(pin);
     },
     onZoom: (pixelSize, zoomValue) => {},
     zoom: {
