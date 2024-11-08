@@ -73,6 +73,8 @@ function setPos(el, x, y) {
     el.style.translate = `${x}px ${y}px`;
 }
 function center(el, x, y) {
+    x = (x==undefined||x==null)?el.pixel_width/2:x
+    y = (y==undefined||y==null)?el.pixel_height/2:y
     var offsetX, offsetY;
     if ((x!==undefined||x!==null) && (y!==undefined||y!==null)) {
         const pixel_size = el.offsetWidth/el.pixel_width;
@@ -83,8 +85,8 @@ function center(el, x, y) {
         offsetY = (el.panner_container.offsetHeight/2)-((el.scrollHeight)/2);
     }
     setPos(el, offsetX, offsetY);
-    last_click.x = (el.pixel_width)/2;
-    last_click.y = (el.pixel_height)/2;
+    last_click.x = x;
+    last_click.y = y;
 }
 function zoom(el, zoom_value, x, y) {
     if (el.zoom_lock) return;
@@ -114,9 +116,7 @@ export function pannerInit(el, options) {
     }
     el.updateSize();
     el.center = (x, y) => {
-        x = (x==undefined||x==null)?el.pixel_width/2:x
-        y = (y==undefined||y==null)?el.pixel_height/2:y
-        center(el,x,y);
+        center(el);
     }
     if (el.style.position == '');
     el.min_zoom = options.zoom.min;
@@ -126,7 +126,7 @@ export function pannerInit(el, options) {
     el.zoom_lock = !options.zoom?.allow || false;
     dragElement(el, options.onDragStart, options.onDrag, options.onDragEnd, options.zoom);
     if (options.pos == "center") {
-        center(el,(el.pixel_width)/2,(el.pixel_height)/2);
+        center(el);
     }
     el.onclickFunc = (cursor) => {
         var rect = el.getBoundingClientRect();
