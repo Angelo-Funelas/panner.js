@@ -5,8 +5,8 @@ var last_click = {
 }
 var iPosX, iPosY
 function dragElement(el, onDragStart, onDrag, onDragEnd, zoom_options) {
-    el.onmousedown = (e) => dragStart(e, el, false, onDragStart, onDrag, onDragEnd);
-    el.ontouchstart = (e) => dragStart(e, el, true, onDragStart, onDrag, onDragEnd);
+    el.panner_container.onmousedown = (e) => dragStart(e, el, false, onDragStart, onDrag, onDragEnd);
+    el.panner_container.ontouchstart = (e) => dragStart(e, el, true, onDragStart, onDrag, onDragEnd);
     el.panner_container.addEventListener('DOMMouseScroll', (e) => handleScroll(e, el, zoom_options), false);
     el.panner_container.addEventListener('mousewheel',(e) => handleScroll(e, el, zoom_options), false);
 }
@@ -16,11 +16,11 @@ function dragStart(e, el, touch, callback, onDrag, onDragEnd) {
     var cursor = (touch)?e.touches[0]:e
     iPosX = cursor.clientX;
     iPosY = cursor.clientY;
-    el.onmouseleave = () => {onDragEnd(); last_click.date=null; dragEnd(cursor, el)};
-    el.onmouseup = () => {onDragEnd(); dragEnd(cursor, el)};
-    el.ontouchend = () => {onDragEnd(); dragEnd(cursor, el)};
-    el.onmousemove = (e) => elementDrag(e, el, touch, onDrag);
-    el.ontouchmove = (e) => elementDrag(e, el, touch, onDrag);
+    el.panner_container.onmouseleave = () => {onDragEnd(); last_click.date=null; dragEnd(cursor, el)};
+    el.panner_container.onmouseup = () => {onDragEnd(); dragEnd(cursor, el)};
+    el.panner_container.ontouchend = () => {onDragEnd(); dragEnd(cursor, el)};
+    el.panner_container.onmousemove = (e) => elementDrag(e, el, touch, onDrag);
+    el.panner_container.ontouchmove = (e) => elementDrag(e, el, touch, onDrag);
     if (callback) callback(); // OpenNav(false)
     last_click.date = new Date();
     el.moved = false;
@@ -33,14 +33,17 @@ function dragEnd(cursor, el) {
     var pixelY = Math.floor(y*el.pixel_height/el.offsetHeight);
     last_click.x = pixelX;
     last_click.y = pixelY;
-    el.onmouseup = null;
-    el.onmousemove = null;
-    el.ontouchend = null;
-    el.ontouchmove = null;
+    el.panner_container.onmouseup = null;
+    el.panner_container.onmousemove = null;
+    el.panner_container.ontouchend = null;
+    el.panner_container.ontouchmove = null;
     if (last_click.date!==null) {
+        const rect = el.getBoundingClientRect();
         const now = new Date();
         const speed = now-last_click.date;
-        if (speed <= 200 && !el.moved) {
+        const clientX = cursor.clientX-rect.left;
+        const clientY = cursor.clientY-rect.top;
+        if (speed <= 200 && !el.moved && (0<=clientX && clientX<=el.offsetWidth) && (0<=clientY && clientY<=el.offsetHeight)) {
             el.onclickFunc(cursor);
         }
     }
