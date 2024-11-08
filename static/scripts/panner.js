@@ -95,7 +95,6 @@ function zoom(el, zoom_value, x, y) {
     interface_elements.forEach(element => {
         if (element.interfacePos !== undefined || element.interfacePos !== null) {
             const pixel_size = el.offsetWidth/el.pixel_width;
-            const rect = element.getBoundingClientRect();
             const x = element.interfacePos[0];
             const y = element.interfacePos[1];
             element.style.translate = `${x*pixel_size}px ${y*pixel_size}px`;
@@ -116,7 +115,7 @@ export function pannerInit(el, options) {
     }
     el.updateSize();
     el.center = (x, y) => {
-        center(el);
+        center(el, x, y);
     }
     if (el.style.position == '');
     el.min_zoom = options.zoom.min;
